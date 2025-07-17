@@ -1,35 +1,56 @@
 const formulario = document.querySelector(".form-create");
 let contador = 0;
 let editar = false;
-
+let editando = false;
 
 formulario.addEventListener("submit", (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-   
-    const descripcion = document.querySelector("#descripcion").value;
-    const contenedor = document.querySelector(".publicaciones");
+  const descripcion = document.querySelector("#descripcion").value;
+  const contenedor = document.querySelector(".publicaciones");
 
-    console.log(descripcion);
+  console.log(descripcion);
 
-    contenedor.innerHTML += `    
+  contenedor.innerHTML += `    
 
     <div class="publicacion">
         <p id="id-publicacion">id: ${contador}</p>
-        <p>${descripcion}</p>
-        <button id="editar-btn" onclick="editar-btn(this)">editar</button>
+        <p id="desc-p">${descripcion}</p>
+        <button id="editar-btn" onclick="editar_funt(this)">editar</button>
         <button id="eliminar-btn" onclick="eliminar_funt(this)">eliminar</button>
     </div>
     `;
-    contador++   
-
+  contador++;
 });
 
+function editar_funt(e) {
+  
+  if (editando == false) {
+    editando = true;
+    console.log("clickeado editar");
 
-function eliminar_funt(e){
-    console.log("clickeado");
-    e.parentElement.remove()
+    e.parentElement.innerHTML += `
 
-    
+        <input type="text" id="guardar-cambios-input" required>
+        <button id="guardar-cambios-btn" onclick="guardar_editar(this)">Realizar</button >
+
+    `;
+  }
 }
 
+function guardar_editar(e) {
+  console.log("guardado");
+  editando = false;
+
+  e.parentElement.querySelector("p:nth-child(2)").textContent = document.querySelector("#guardar-cambios-input").value;
+
+  e.remove();
+  document.querySelector("#guardar-cambios-input").remove();
+}
+
+function eliminar_funt(e) {
+  if (editando == false){
+      console.log("clickeado eliminar");
+      e.parentElement.remove();
+  }
+}
